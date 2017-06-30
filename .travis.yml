@@ -1,0 +1,7 @@
+language: bash
+
+before_script:
+    - echo hello
+
+script:
+    - bash echo hello
