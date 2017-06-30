@@ -1,7 +1,7 @@
 language: bash
 
 before_script:
-    - echo hello
+    - bash -c echo hello
 
 script:
-    - bash echo hello
+    - bash -c echo hello
