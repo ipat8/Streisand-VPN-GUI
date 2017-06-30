@@ -1,7 +1,11 @@
 language: bash
 
 before_script:
+<<<<<<< HEAD
     - bash -c echo hello
+=======
+    - bash echo hello
+>>>>>>> origin/master
 
 script:
     - bash -c echo hello
