@@ -4,6 +4,8 @@ sleep 5
 notify-send "Streisand GUI Setup" "We're going to request Sudo access now." -i './resources/lock.png' -t 5000
 sleep 3
 
+sudo apt-get install gksu
+
 SUDOPASSWORD="$( gksudo --print-pass --message 'Provide your password to allow for software installation.' -- : 2>/dev/null )"
 # Check for null entry or cancellation.
 if [[ ${?} != 0 || -z ${SUDOPASSWORD} ]]
