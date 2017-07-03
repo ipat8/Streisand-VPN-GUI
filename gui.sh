@@ -107,6 +107,7 @@ echo "# Enabling expect service and switching to strisand" >&${COPROC[1]} ; slee
 echo "90" >&${COPROC[1]}
 echo "# Striesand Deployment in progress, this should take about 10 minutes." >&${COPROC[1]}
 
+
 /usr/bin/expect <<EOD
   set provider [puts $env(provider)]
   set awsregion [puts $env(awsregion)]

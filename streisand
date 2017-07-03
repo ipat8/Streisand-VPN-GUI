@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Streisand provisioning script
 
+
 # Set errexit option to exit immediately on any non-zero status return
 set -e
 
