@@ -1,12 +1,11 @@
-#!/bin/bash
-#notify-send --text="Give us just a moment to gather our basic packages."
-#sudo apt-get update
-#sudo apt-get install zenity wmctrl
-#notify-send --text="Basic package install complete, we'll now begin the Streisand install process."
-#sleep 2
-# Force Zenity Status message box to always be on top.
-#sleep 1 && wmctrl -r "AWS Streisand Server Deployment Status" -b add,above &
-coproc zenity --progress --pulsate --width=450\
+sudo apt-get update
+sudo apt-get install zenity wmctrl
+notify-send --text="Basic package install complete, we'll now begin the Streisand install process."
+sleep 2
+#Force Zenity to be on top.
+sleep 1 && wmctrl -a AWS -b add,above&
+#Start progress box
+coproc zenity --progress --pulsate --width=450 \
   --title="AWS Streisand Server Deployment Status" \
   --text="First Task." \
   --percentage=0
@@ -14,38 +13,35 @@ coproc zenity --progress --pulsate --width=450\
 ##  >&${COPROC[1]}
 # =================================================================
 echo "# Checking system for mobile platform compatibility." >&${COPROC[1]} ; sleep 1
-#sudo ssh-keygen
-#if ping -c 1 8.8.8.8
-#  then
-#    echo System network test failure. Please connect to the internet and try again. Exiting.
-#    exit
-#  else
-#    echo System network test pass. Continueing.
-say step 1
+sudo ssh-keygen
+if ping -c 1 8.8.8.8
+  then
+    zenity --info --name="AWS Streisand Server Setup" --class="AWS Streisand Server Setup" --name="AWS Streisand Server Setup" --window-icon="error" --icon-name="process-stop" --title="Network test failure" --title="Network test failure" --text="Please connect to the internet and try again. Exiting."
+    exit
+  else
+    zenity --info --name="AWS Streisand Server Setup" --class="AWS Streisand Server Setup" --name="AWS Streisand Server Setup" --window-icon="info" --icon-name="emblem-default" --title="Network test successful" --title="Network test successful" --text="Continueing Setup."
+fi
 # =================================================================
 echo "5" >&${COPROC[1]}
 echo "# Preparing system for mobile deployment." >&${COPROC[1]} ; sleep 1
-#sudo apt-get update
-#sudo apt-get dist-upgrade
-# sudo apt-get install git
-say step 2
+sudo apt-get dist-upgrade
+sudo apt-get install git
 # =================================================================
 echo "15" >&${COPROC[1]}
 echo "# Downloading preinstall software." >&${COPROC[1]} ; sleep 1
-# sudo apt-get install python-paramiko python-pip python-pycurl python-dev build-essential
-# sudo pip install ansible markupsafe
-# sudo pip install boto
-# sudo pip install msrest msrestazure azure==2.0.0rc5
-# sudo pip install dopy==0.3.5
-# sudo pip install "apache-libcloud>=1.5.0"
-# sudo pip install linode-python
-# sudo pip install pyrax
+sudo apt-get install python-paramiko python-pip python-pycurl python-dev build-essential
+sudo pip install ansible markupsafe
+sudo pip install boto
+sudo pip install msrest msrestazure azure==2.0.0rc5
+sudo pip install dopy==0.3.5
+sudo pip install apache-libcloud>=1.5.0
+sudo pip install linode-python
+sudo pip install pyrax
 # =================================================================
 echo "40" >&${COPROC[1]}
 echo "# Downloading required modules." >&${COPROC[1]} ; sleep 1
-# git clone https://github.com/jlund/streisand.git && cd streisand
+#git clone https://github.com/jlund/streisand.git vpnexec
 # git clone $repo when I get to it
-say step 3
 # =================================================================
 echo "50" >&${COPROC[1]}
 echo "# Prepairing to switch to striesand. Requesting user information." >&${COPROC[1]} ; sleep 1
@@ -53,7 +49,7 @@ provider=$(zenity  --list --title="Select Provider" --text "What provider are yo
   if [ $provider = "1" ]; then
       :
     else
-      zenity --info --text="AWS not selected. Other providers are disabled on this internal this system. Please contact BST-INTENG. Exiting" --timeout 8
+      zenity --info --text="AWS not selected. Other providers are disabled on this system. Please contact BST-INTENG. Exiting" --timeout 8
       echo "100"
       echo "# Operation failed. Please try again."
       exit
@@ -105,12 +101,12 @@ awssk=$(zenity --forms --title="AWS User information" --add-password="AWS Secret
 export awssk
 setup="\n"
 export setup
-say step 4
 # =================================================================
 echo "80" >&${COPROC[1]}
 echo "# Enabling expect service and switching to strisand" >&${COPROC[1]} ; sleep 5
 echo "90" >&${COPROC[1]}
 echo "# Striesand Deployment in progress, this should take about 10 minutes." >&${COPROC[1]}
+cp ./vpnxec/play
 
 /usr/bin/expect <<EOD
   set provider [puts $env(provider)]
@@ -121,7 +117,7 @@ echo "# Striesand Deployment in progress, this should take about 10 minutes." >&
   set vpc [puts $env(vpc)]
   set sub [puts $env(sub)]
   set setup [puts $env(setup)]
-  spawn "/Users/moose/streisand/streisand"
+  spawn "./streisand"
   expect "Which provider are you using?*" {send $provider\r}
   expect "In what region should the server*" {send $awsregion\r}
   expect "Press enter to use the default V*" {send $vpc\r}
