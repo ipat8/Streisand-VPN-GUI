@@ -1,6 +1,6 @@
 sudo apt-get update
 sudo apt-get install zenity wmctrl
-notify-send --text="Basic package install complete, we'll now begin the Streisand install process."
+notify-send "Basic package install complete, we'll now begin the Streisand install process."
 sleep 2
 #Force Zenity to be on top.
 sleep 1 && wmctrl -a AWS -b add,above&
