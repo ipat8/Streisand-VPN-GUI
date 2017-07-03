@@ -40,7 +40,7 @@ sudo pip install pyrax
 # =================================================================
 echo "40" >&${COPROC[1]}
 echo "# Downloading required modules." >&${COPROC[1]} ; sleep 1
-#git clone https://github.com/jlund/streisand.git vpnexec
+# git clone https://github.com/jlund/streisand.git vpnexec
 # git clone $repo when I get to it
 # =================================================================
 echo "50" >&${COPROC[1]}
@@ -106,7 +106,6 @@ echo "80" >&${COPROC[1]}
 echo "# Enabling expect service and switching to strisand" >&${COPROC[1]} ; sleep 5
 echo "90" >&${COPROC[1]}
 echo "# Striesand Deployment in progress, this should take about 10 minutes." >&${COPROC[1]}
-cp ./vpnxec/play
 
 /usr/bin/expect <<EOD
   set provider [puts $env(provider)]
@@ -135,7 +134,8 @@ echo "# System Deployed." >&${COPROC[1]} ; sleep 1
 zenity --question --title="AWS Streisand Server Deployment" --text="Would you like to preform cleanup? This is recomeneded."
   if [ $? = 0 ]
     then
-      : # do cleanup
+      zenity --info -title "AWS Streisand Server Deployment" --text="Thank you for using a BST-INTENG product, cleanup will be preformed and we will exit."
+      sudo rm -rf ./*
     else
     zenity --question --title="AWS Streisand Server Deployment" --text="Are you sure?"
       if [ $? = 0 ]
@@ -146,7 +146,8 @@ zenity --question --title="AWS Streisand Server Deployment" --text="Would you li
             zenity --question --title="AWS Streisand Server Deployment" --text="Would you like to preform cleanup? This is recomeneded."
           if [ $? = 0 ]
             then
-                : #do cleanup
+              zenity --info -title "AWS Streisand Server Deployment" --text="Thank you for using a BST-INTENG product, cleanup will be preformed and we will exit."
+              sudo rm -rf ./*
             else
               zenity --info -title "AWS Streisand Server Deployment" --text="Thank you for using a BST-INTENG product, we will now exit."
               exit
