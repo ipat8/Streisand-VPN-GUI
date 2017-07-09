@@ -10,7 +10,7 @@ SUDOPASSWORD="$( gksudo --print-pass --message 'Provide your password to allow f
 # Check for null entry or cancellation.
 if [[ ${?} != 0 || -z ${SUDOPASSWORD} ]]
 then
-notify-send "Streisand Setup" "No password Provided" -i './resources/lock.png' -t 10000
+notify-send "Streisand Setup" "No password Provided. Setup stopped." -i './resources/lock.png' -t 10000
 exit 4
 fi
 # Check that the password is valid.

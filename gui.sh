@@ -5,10 +5,10 @@ sleep 2
 #Force Zenity to be on top.
 sleep 1 && wmctrl -a AWS -b add,above&
 #Start progress box
-coproc zenity --progress --pulsate --width=450 \
+(coproc zenity --progress --pulsate --width=450 \
   --title="AWS Streisand Server Deployment Status" \
   --text="First Task." \
-  --percentage=0
+  --percentage=0)
 
 ##  >&${COPROC[1]}
 # =================================================================
